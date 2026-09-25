@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap');
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-xeno-dark text-gray-100 overflow-x-hidden font-outfit tracking-wide;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-outfit text-white leading-tight;
+  }
+  
+  /* Hide scrollbar globally */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-xeno-primary to-xeno-secondary;
+}
+
+.glass-panel {
+  @apply bg-xeno-surface/80 backdrop-blur-xl border border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] rounded-3xl;
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
