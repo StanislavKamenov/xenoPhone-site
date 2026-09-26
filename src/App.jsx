@@ -12,7 +12,7 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <>
+    <div className="overflow-x-hidden w-full relative max-w-[100vw]">
       <Navbar />
       <Hero />
       <Features />
@@ -23,7 +23,7 @@ function App() {
       <Trailer />
       <Pricing />
       <Footer />
-    </>
+    </div>
   )
 }
 

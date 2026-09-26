@@ -59,39 +59,42 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center items-center z-10 perspective-[1200px] lg:-mt-20"
+          className="flex-1 relative w-full flex justify-center items-center z-10 perspective-[1200px] lg:-mt-20 overflow-visible"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(255,42,0,0.2)_0%,transparent_60%)] blur-[60px] -z-10 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] bg-[radial-gradient(circle,rgba(255,42,0,0.2)_0%,transparent_60%)] blur-[60px] -z-10 pointer-events-none" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="relative w-[450px] h-[850px] flex items-center justify-center -translate-y-10"
-          >
-            {/* Overlay to block dragging if needed, but we want interaction. 
-                Instead, we just make the iframe big enough to fit the phone natively. */}
-            <iframe
-              src="/preview/index.html"
-              title="XenoPhone Live"
-              className="absolute inset-0 w-full h-full border-none z-10"
-              sandbox="allow-scripts allow-same-origin allow-forms"
-              onLoad={(e) => {
-                try {
-                  const win = e.target.contentWindow;
-                  win.localStorage.removeItem('xeno_phone_position');
-                  win.localStorage.removeItem('phone_position');
-                  // Try to inject style to prevent drag
-                  const style = win.document.createElement('style');
-                  style.innerHTML = '.drag-handle, [data-drag], .phone-header { pointer-events: none !important; touch-action: none !important; }';
-                  win.document.head.appendChild(style);
-                } catch (err) { }
-              }}
-            />
-          </motion.div>
+          {/* Scaled Wrapper to maintain layout space without overflow */}
+          <div className="relative flex justify-center items-start h-[720px] sm:h-[750px] lg:h-[850px] w-full -translate-y-32 lg:translate-y-0 lg:mt-0">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="absolute top-0 left-1/2 -translate-x-[58%] sm:-translate-x-1/2 lg:-translate-x-1/2 w-[450px] h-[850px] flex items-center justify-center scale-[1.05] sm:scale-100 lg:scale-100 origin-top"
+            >
+              {/* Overlay to block dragging if needed, but we want interaction. 
+                  Instead, we just make the iframe big enough to fit the phone natively. */}
+              <iframe
+                src="/preview/index.html"
+                title="XenoPhone Live"
+                className="absolute inset-0 w-full h-full border-none z-10"
+                sandbox="allow-scripts allow-same-origin allow-forms"
+                onLoad={(e) => {
+                  try {
+                    const win = e.target.contentWindow;
+                    win.localStorage.removeItem('xeno_phone_position');
+                    win.localStorage.removeItem('phone_position');
+                    // Try to inject style to prevent drag
+                    const style = win.document.createElement('style');
+                    style.innerHTML = '.drag-handle, [data-drag], .phone-header { pointer-events: none !important; touch-action: none !important; }';
+                    win.document.head.appendChild(style);
+                  } catch (err) { }
+                }}
+              />
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
