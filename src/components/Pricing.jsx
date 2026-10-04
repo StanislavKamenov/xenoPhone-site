@@ -7,7 +7,7 @@ export default function Pricing() {
     <section id="pricing" className="py-24 px-6 w-full relative z-10 bg-[#020203]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -15,7 +15,7 @@ export default function Pricing() {
           >
             Choose Your <span className="gradient-text">License</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -28,7 +28,7 @@ export default function Pricing() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Subscription Card */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -48,7 +48,7 @@ export default function Pricing() {
               <p className="text-gray-400 mb-8">
                 Perfect for starting communities. Cancel anytime. Always stay updated with the latest features.
               </p>
-              
+
               <ul className="space-y-4 mb-8">
                 {['Full access to XenoPhone', 'All 25+ Built-in Apps', 'Free minor and major updates', 'Premium Support', 'Cancel anytime'].map((item, i) => (
                   <li key={i} className="flex items-center text-gray-300">
@@ -58,8 +58,8 @@ export default function Pricing() {
                 ))}
               </ul>
             </div>
-            <a 
-              href="https://xenoshop.net" 
+            <a
+              href="https://xenoshop.net"
               target="_blank" rel="noopener noreferrer"
               className="w-full block text-center py-4 rounded-xl font-bold bg-white/5 text-white hover:bg-white/10 transition-colors border border-white/10"
             >
@@ -68,7 +68,7 @@ export default function Pricing() {
           </motion.div>
 
           {/* Lifetime Card */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -77,7 +77,7 @@ export default function Pricing() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-xeno-primary to-xeno-secondary text-white font-bold px-4 py-1 rounded-full text-sm flex items-center gap-1 shadow-lg">
               <Star className="w-4 h-4" fill="currentColor" /> BEST VALUE
             </div>
-            
+
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold text-white">Lifetime License</h3>
@@ -86,13 +86,13 @@ export default function Pricing() {
                 </div>
               </div>
               <div className="mb-6">
-                <span className="text-5xl font-black text-white">$49.99</span>
+                <span className="text-5xl font-black text-white">$59.99</span>
                 <span className="text-gray-500 font-medium"> / one-time</span>
               </div>
               <p className="text-gray-400 mb-8">
                 Pay once, own it forever. The ultimate choice for established servers seeking the best technology.
               </p>
-              
+
               <ul className="space-y-4 mb-8">
                 {['Full access to XenoPhone', 'All 25+ Built-in Apps', 'Lifetime free updates', 'Priority Premium Support', 'No recurring fees'].map((item, i) => (
                   <li key={i} className="flex items-center text-gray-300">
@@ -102,8 +102,8 @@ export default function Pricing() {
                 ))}
               </ul>
             </div>
-            <a 
-              href="https://xenoshop.net" 
+            <a
+              href="https://xenoshop.net"
               target="_blank" rel="noopener noreferrer"
               className="w-full block text-center py-4 rounded-xl font-bold text-white bg-gradient-to-r from-xeno-primary to-xeno-secondary hover:shadow-[0_0_20px_rgba(255,92,0,0.4)] transition-all hover:-translate-y-1"
             >

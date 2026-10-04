@@ -1,6 +1,7 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import { Shield, Bell, Globe, CreditCard, Code, Sparkles, ScanFace, Lock, Bitcoin, Phone, Car, ArrowUpRight, ArrowDownLeft, ChevronLeft, Navigation, Video, Mail, Landmark, Receipt, Calendar, Calculator, Home, Building2, ShoppingBag, MessageCircle, Image as ImageIcon, Clock, StickyNote, Settings, Users, Camera, MessageSquare } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Shield, Bell, Globe, CreditCard, Code, Sparkles, ScanFace, Lock, Bitcoin, Phone, Car, ArrowUpRight, ArrowDownLeft, ChevronLeft, Navigation, Video, Mail, Landmark, Receipt, Calendar, Calculator, Home, Building2, ShoppingBag, MessageCircle, Image as ImageIcon, Clock, StickyNote, Settings, Users, Camera, MessageSquare, Smartphone, CloudSun } from 'lucide-react'
+import MockupIcon from './MockupIcon'
 
 const IOSSignal = () => (
   <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -39,14 +40,491 @@ const SUPPORTED_LANGUAGES = [
   'Українська', 'Tiếng Việt', '简体中文', '繁體中文'
 ];
 
+const PhoneMockup = ({ title, osType = 'iphone' }) => {
+  const isMultiOS = title.includes("Multi-OS");
+  const isSecurity = title.includes("Security");
+  const isGlobal = title.includes("Global");
+  const isFinancial = title.includes("Financial");
+
+  const isAndroid = osType === 'android';
+  const isXeno = osType === 'xeno';
+  
+  const [showCrypto, setShowCrypto] = useState(false);
+
+  useEffect(() => {
+    if (!isFinancial) return;
+    const interval = setInterval(() => {
+      setShowCrypto(prev => !prev);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isFinancial]);
+
+  // Base styling depending on OS
+  const phoneRadius = isAndroid ? 'rounded-[1.2rem]' : isXeno ? 'rounded-[2rem]' : 'rounded-[3.5rem]';
+  const screenRadius = isAndroid ? 'rounded-[0.9rem]' : isXeno ? 'rounded-[1.7rem]' : 'rounded-[3rem]';
+
+  // Frame and Shadow styling depending on OS
+  const frameColor = isAndroid ? 'border-[#4a4a4d]' : isXeno ? 'border-[#ef4444]' : (showCrypto ? 'border-[#f7931a]' : 'border-[#ff5c00]');
+  const shadowColor = isAndroid ? 'shadow-[0_0_50px_rgba(255,255,255,0.1)]' : isXeno ? 'shadow-[0_0_50px_rgba(239,68,68,0.15)]' : (showCrypto ? 'shadow-[0_0_50px_rgba(247,147,26,0.15)]' : 'shadow-[0_0_50px_rgba(255,92,0,0.15)]');
+  const buttonColor = isAndroid ? 'bg-[#4a4a4d]' : isXeno ? 'bg-[#ef4444]' : 'bg-[#ff5c00]';
+
+  return (
+    <div className={`relative w-[320px] h-[660px] ${phoneRadius} border-[6px] ${frameColor} bg-[#09090b] ${shadowColor} flex flex-col items-center bg-black`}>
+      {/* Hardware Buttons */}
+      <div className={`absolute -left-[9px] top-[100px] w-1 h-6 ${buttonColor} rounded-l-sm`} />
+      <div className={`absolute -left-[9px] top-[140px] w-1.5 h-14 ${buttonColor} rounded-l-md`} />
+      <div className={`absolute -left-[9px] top-[210px] w-1.5 h-14 ${buttonColor} rounded-l-md`} />
+      <div className={`absolute -right-[9px] top-[170px] w-1.5 h-20 ${buttonColor} rounded-r-md`} />
+
+      {/* Screen Container */}
+      <div className={`relative w-full h-full ${screenRadius} overflow-hidden bg-black`}>
+        
+        {/* Universal Status Bar */}
+        <div className="absolute top-[12px] left-0 right-0 h-[34px] px-6 flex justify-between items-center z-[70] pointer-events-none text-white">
+          <div className="text-[13px] font-bold tracking-wider drop-shadow-md flex items-center gap-[5px]">
+            <span>ID: 339</span>
+            <span className="text-[10px] font-black bg-white/25 px-[4px] py-[1px] rounded-[4px] tracking-normal mt-[1px]">5G</span>
+          </div>
+          <div className="flex items-center gap-[5px] drop-shadow-md pb-[1px]">
+            <IOSSignal />
+            <IOSWifi />
+            <IOSBattery />
+          </div>
+        </div>
+
+        {/* Camera Cutout depending on OS */}
+        {osType === 'iphone' && (
+          <div className="absolute top-0 inset-x-0 z-[70] flex justify-center pt-3 pointer-events-none">
+            <motion.div 
+              initial={isMultiOS || isSecurity ? { width: 105, height: 34, borderRadius: 9999, y: 0 } : false}
+              animate={{ width: 105, height: 34, borderRadius: 9999, y: 0 }}
+              className="bg-black shadow-[0_4px_10px_rgba(0,0,0,0.5)] border-[0.5px] border-white/20 relative overflow-hidden pointer-events-auto"
+            >
+                {/* Static sensors */}
+                <motion.div
+                  animate={(isMultiOS || isSecurity) ? { opacity: [1, 0, 0, 1] } : { opacity: 1 }}
+                  transition={
+                    isSecurity 
+                      ? { duration: 8, repeat: Infinity, ease: "easeInOut", times: [0, 0.1, 0.9, 1] } 
+                      : { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                  }
+                  className="absolute inset-0 px-3 flex items-center justify-between pointer-events-none"
+                >
+                  <div className="w-[8px] h-[8px] rounded-full bg-black/60 flex items-center justify-center shadow-inner">
+                    <div className="w-[3px] h-[3px] rounded-full bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+                  </div>
+                  <div className="w-[12px] h-[12px] rounded-full bg-gradient-to-br from-[#1a1a3e] to-[#0e0e20] ring-[1px] ring-[#252535]/80 flex items-center justify-center">
+                    <div className="w-[5px] h-[5px] rounded-full bg-[#2244aa]/60" />
+                  </div>
+                </motion.div>
+
+                {/* Removed Incoming Call Content to keep it static */}
+            </motion.div>
+          </div>
+        )}
+
+        {isAndroid && (
+          <div className="absolute top-[18px] inset-x-0 z-[70] flex justify-center pointer-events-none">
+            <div className="w-[14px] h-[14px] rounded-full bg-[#0a0a0a] shadow-inner border-[0.5px] border-white/10 flex items-center justify-center">
+               <div className="w-[4px] h-[4px] rounded-full bg-[#111122]/60" />
+            </div>
+          </div>
+        )}
+
+        {isXeno && (
+          <div className="absolute top-[16px] inset-x-0 z-[70] flex justify-center pointer-events-none">
+            <div className="w-[48px] h-[18px] rounded-full bg-[#0a0a0a] shadow-inner border-[0.5px] border-white/10 flex items-center justify-end px-2">
+               <div className="w-[6px] h-[6px] rounded-full bg-cyan-400 shadow-[0_0_4px_rgba(34,211,238,0.5)]" />
+            </div>
+          </div>
+        )}
+
+        {/* Universal Home Bar (Only iPhone) */}
+        {osType === 'iphone' && (
+          <div className="absolute bottom-[8px] inset-x-0 flex justify-center z-[80] pointer-events-none">
+            <div className="relative w-[60px] h-[5px] flex items-center justify-center">
+              <div className="absolute inset-0 backdrop-blur-md rounded-full shadow-inner transition-colors bg-white/30" />
+              <div className="absolute h-[3px] w-[20px] rounded-full transition-colors bg-white/90" />
+            </div>
+          </div>
+        )}
+
+        {/* Wallpaper Background for lock screen/home */}
+        {(isMultiOS || isSecurity) && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-90" 
+            style={{
+              backgroundImage: `url('${
+                isAndroid ? '/preview/wallpapers/smb1.png' : 
+                isXeno ? '/preview/wallpapers/b2.webp' : 
+                '/preview/wallpapers/b1.webp'
+              }')`
+            }}
+          />
+        )}
+        
+        {/* Screen Content Wrapper */}
+        <div className="relative w-full h-full z-10 flex flex-col items-center justify-center">
+          
+          {isMultiOS && (
+            <div className={`absolute inset-0 pb-5 px-3 flex flex-col pointer-events-none z-10 ${isAndroid ? 'pt-7' : 'pt-9'}`}>
+              {/* TOP SECTION */}
+              {osType === 'iphone' && (
+                <div className="mt-8 mb-4 flex w-full gap-[12px] px-1 h-[130px]">
+                  {/* Weather Widget */}
+                  <div className="flex-1 rounded-[1.2rem] bg-gradient-to-b from-[#409cff] to-[#3070ff] text-white p-3 flex flex-col justify-between shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-white/20">
+                     <div className="text-[12px] font-bold flex items-center justify-between opacity-90 tracking-tight leading-none">Los Santos <Navigation size={10} fill="currentColor" className="ml-1" /></div>
+                     <div className="text-[44px] font-medium leading-none tracking-tighter mt-1 drop-shadow-sm">16&deg;</div>
+                     <div className="text-[12px] flex items-center gap-1 font-medium mt-auto leading-none opacity-90">
+                       <CloudSun size={14} fill="white" className="drop-shadow-sm" /> Fog
+                     </div>
+                  </div>
+                  {/* Calendar Widget */}
+                  <div className="flex-1 rounded-[1.2rem] bg-[#1c1c1e] text-white p-3 px-[10px] flex flex-col shadow-[0_4px_12px_rgba(0,0,0,0.3)] border border-white/10">
+                    <div className="text-[#ff3b30] text-[10px] font-bold uppercase tracking-widest mb-1 leading-none">MAY</div>
+                    <div className="grid grid-cols-7 gap-x-[2px] text-[8px] font-bold text-center mb-[4px] text-[#ebebf5]/50 leading-none">
+                      <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+                    </div>
+                    <div className="grid grid-cols-7 gap-x-[2px] gap-y-[4px] text-[9.5px] font-bold text-center leading-none">
+                      <div className="text-white/50">1</div><div className="text-white/50">2</div><div className="text-white/50">3</div><div className="text-white/50">4</div><div className="text-white/50">5</div><div className="text-white/50">6</div><div className="text-white/50">7</div>
+                      <div className="text-white/50">8</div><div className="text-white/50">9</div><div className="text-white/50">10</div><div className="text-white/50">11</div><div className="text-white/50">12</div><div className="text-white/50">13</div>
+                      <div className="w-[14px] h-[14px] rounded-full bg-[#ff3b30] text-white flex items-center justify-center mx-auto shadow-sm">14</div>
+                      <div>15</div><div>16</div><div>17</div><div>18</div><div>19</div><div>20</div><div>21</div>
+                      <div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div><div>28</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {osType === 'android' && (
+                <div className="mt-4 mb-4 flex flex-col w-full gap-[8px] px-1">
+                  <div className="w-full rounded-[1.2rem] bg-black/60 backdrop-blur-md text-white p-3 shadow-lg border border-white/5 h-[110px] flex flex-col justify-center">
+                     <div className="w-8 h-8 rounded-full bg-[#34c759] mb-2 shadow-sm border border-white/10" />
+                     <div className="text-[18px] font-bold leading-none tracking-tight">Have a good day</div>
+                     <div className="text-[10px] font-medium leading-snug mt-1.5 opacity-90 text-gray-200">Hope your day is going as planned. Windy, mix of rain and snow early. Low -8C.</div>
+                  </div>
+                  <div className="flex w-full gap-[8px] h-[55px]">
+                    <div className="flex-1 rounded-[1.2rem] bg-[#314a8f] text-white px-3 py-1 flex items-center justify-between shadow-lg">
+                      <CloudSun size={24} fill="white" />
+                      <div className="flex flex-col items-end">
+                        <span className="text-[14px] font-bold leading-none">6&deg;</span>
+                        <span className="text-[10px] opacity-80 leading-none mt-1 flex items-center gap-1"><Navigation size={8} fill="currentColor"/> East...</span>
+                      </div>
+                    </div>
+                    <div className="flex-1 rounded-[1.2rem] bg-[#221f1e] text-white px-3 py-2 flex items-center shadow-lg border border-white/5">
+                       <div className="flex flex-col items-center border-r border-white/20 pr-2 mr-2">
+                         <span className="text-[#ff3b30] text-[8px] font-bold leading-none">OCT</span>
+                         <span className="text-[16px] font-bold leading-none mt-[2px]">4</span>
+                       </div>
+                       <div className="flex flex-col">
+                         <span className="text-[12px] font-bold leading-none">Sunday</span>
+                         <span className="text-[10px] opacity-60 leading-none mt-1">No events</span>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {osType === 'xeno' && (
+                <div className="mt-1 flex flex-col items-center w-full mb-[16px] pt-6">
+                  <div className="text-white font-bold text-[14px] mt-0 drop-shadow-md">10/04/2026</div>
+                  <div className="text-[68px] font-bold text-white leading-none tracking-tight drop-shadow-md mt-[-6px]">13:46</div>
+                </div>
+              )}
+              
+              {/* APPS GRID */}
+              <div className={`grid ${isAndroid ? 'grid-cols-5 gap-x-1' : 'grid-cols-4 gap-x-1.5'} gap-y-3 w-full px-[6px]`}>
+                {[
+                  { id: 'maps', icon: Navigation, color: "from-[#10b981] via-[#059669] to-[#047857]", label: "Maps", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'face2face', icon: Video, color: "from-[#34c759] via-[#30d158] to-[#28cd41]", label: osType === 'android' ? "Video Call" : "Face2Face", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'mail', icon: Mail, color: "from-[#43e5f7] via-[#2bcdf0] to-[#1cadde]", label: osType === 'android' ? "Email" : "Mail", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'wallet', icon: Landmark, color: "from-[#1a2a6c] via-[#b21f1f] to-[#fdbb2d]", label: "Bank", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'billing', icon: Receipt, color: "from-[#0284c7] via-[#0369a1] to-[#075985]", label: osType === 'iphone' ? "Invoices" : "Billing", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'garage', icon: Car, color: "from-[#f97316] via-[#ea580c] to-[#c2410c]", label: "Garage", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'calendar', icon: Calendar, color: "from-[#b224ef] via-[#de479e] to-[#f36b6b]", label: "Calendar", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'calc', icon: Calculator, color: "from-[#2193b0] via-[#41b5d1] to-[#6dd5ed]", label: "Calculator", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'properties', icon: Home, color: "from-[#8b5cf6] via-[#7c3aed] to-[#6d28d9]", label: "Properties", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'companies', icon: Building2, color: "from-[#2563eb] via-[#3b82f6] to-[#60a5fa]", label: "Companies", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'hub', icon: ShoppingBag, color: "from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]", label: osType === 'iphone' ? "App Store" : "App Hub", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'bleeter', icon: MessageCircle, color: "from-[#38bdf8] via-[#0ea5e9] to-[#0284c7]", label: "Bleeter", showIn: ['iphone', 'android', 'xeno'] },
+                  { id: 'clock', icon: Clock, color: "from-[#4b5563] via-[#374151] to-[#1f2937]", label: "Clock", showIn: ['android', 'xeno'] },
+                  { id: 'notes', icon: StickyNote, color: "from-[#f59e0b] via-[#d97706] to-[#b45309]", label: "Notes", showIn: ['android', 'xeno'] },
+                  { id: 'contacts', icon: Users, color: "from-[#f97316] via-[#ea580c] to-[#c2410c]", label: "Contacts", showIn: ['android', 'xeno'] },
+                  { id: 'gallery', icon: ImageIcon, color: "from-[#ff0844] via-[#ffb199] to-[#ffcc80]", label: "Gallery", showIn: ['iphone', 'xeno'] },
+                  { id: 'clock', icon: Clock, color: "from-[#f97316] via-[#ea580c] to-[#c2410c]", label: "Clock", showIn: ['iphone'] },
+                  { id: 'notes', icon: StickyNote, color: "from-[#f6d365] via-[#fda085] to-[#f6d365]", label: "Notes", showIn: ['iphone'] },
+                  { id: 'settings', icon: Settings, color: "from-[#606c88] via-[#4e576f] to-[#3f4c6b]", label: "Settings", showIn: ['iphone'] }
+                ].filter(app => app.showIn.includes(osType)).map((app, i) => (
+                  <div key={i} className="flex flex-col items-center gap-[3px]">
+                    <MockupIcon appId={app.id} osType={osType} genericIcon={app.icon} genericColor={app.color} />
+                    <span className={osType === 'iphone' ? "text-white text-[11px] font-medium tracking-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate w-full text-center leading-tight mt-[1px]" : "text-white text-[9.5px] font-bold tracking-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] whitespace-nowrap truncate w-full text-center leading-tight mt-[1px]"}>
+                      {app.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Pagination Dots */}
+              <div className={`mt-auto ${isAndroid ? 'mb-1' : 'mb-[2px]'} flex justify-center gap-[6px] w-full`}>
+                <div className="w-[6px] h-[6px] rounded-full bg-white/40"></div>
+                <div className="w-[6px] h-[6px] rounded-full bg-white"></div>
+                <div className="w-[6px] h-[6px] rounded-full bg-white/40"></div>
+              </div>
+
+              {/* DOCK */}
+              <div className={`mx-1 ${isAndroid ? 'h-[64px] bg-transparent px-2 mb-4' : isXeno ? 'h-[76px] bg-transparent px-3 mb-2' : 'h-[76px] bg-white/10 backdrop-blur-[24px] rounded-[1.8rem] px-2 mb-1 shadow-lg border border-white/10'} flex items-center justify-around`}>
+                {(isAndroid ? [
+                  { id: 'phone', icon: Phone, color: "from-[#34c759] to-[#28cd41]" },
+                  { id: 'messages', icon: MessageSquare, color: "from-[#34c759] to-[#28cd41]" },
+                  { id: 'camera', icon: Camera, color: "from-[#d1d5db] via-[#9ca3af] to-[#4b5563]" },
+                  { id: 'gallery', icon: ImageIcon, color: "from-[#ff0844] via-[#ffb199] to-[#ffcc80]" },
+                  { id: 'settings', icon: Settings, color: "from-[#606c88] via-[#4e576f] to-[#3f4c6b]" }
+                ] : [
+                  { id: 'phone', icon: Phone, color: "from-[#34c759] to-[#28cd41]" },
+                  { id: 'messages', icon: MessageSquare, color: "from-[#4facfe] to-[#00a1ff]" },
+                  { id: 'contacts', icon: Users, color: "from-[#ffa751] to-[#ffe259]" },
+                  { id: 'camera', icon: Camera, color: "from-[#ff0844] via-[#ffb199] to-[#ffcc80]" }
+                ]).map((app, i) => (
+                  <div key={i}>
+                    <MockupIcon appId={app.id} osType={osType} genericIcon={app.icon} genericColor={app.color} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {isSecurity && (
+            <div className="absolute inset-0 flex flex-col items-center w-full h-full bg-black/20">
+                <div className="mt-16 flex flex-col items-center w-full">
+                  <div className="relative w-6 h-6 flex items-center justify-center mb-1">
+                    <motion.div
+                      animate={{ opacity: [1, 1, 0, 0, 0] }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.4, 0.45, 0.5, 1] }}
+                      className="absolute"
+                    >
+                      <ScanFace className="w-6 h-6 text-[#60a5fa] drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" strokeWidth={1.5} />
+                    </motion.div>
+                    <motion.div
+                      animate={{ opacity: [0, 0, 0, 1, 1] }}
+                      transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.45, 0.5, 0.6, 1] }}
+                      className="absolute"
+                    >
+                      <Lock className="w-5 h-5 text-white" strokeWidth={2} />
+                    </motion.div>
+                  </div>
+                  
+                  <div className="text-[64px] font-bold text-white leading-none tracking-tight">21:19</div>
+                  <div className="text-white/90 font-medium text-lg mt-1">09/25/2026</div>
+                </div>
+                <div className="absolute bottom-6 flex flex-col items-center justify-center w-full">
+                  <motion.div 
+                    animate={{ opacity: [1, 1, 0, 0, 0] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.4, 0.45, 0.5, 1] }}
+                    className="absolute bottom-0 text-white/90 font-medium text-[13px] tracking-wide mb-1"
+                  >
+                    Slide to unlock
+                  </motion.div>
+                  <motion.div 
+                    animate={{ opacity: [0, 0, 0, 1, 1] }}
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.45, 0.5, 0.6, 1] }}
+                    className="absolute bottom-0 text-white/90 font-medium text-[13px] tracking-wide mb-1"
+                  >
+                    Swipe up to open
+                  </motion.div>
+                </div>
+            </div>
+          )}
+
+          {isGlobal && (
+            <div className="absolute inset-0 bg-[#000000] flex flex-col w-full h-full">
+                <div className="pt-16 pb-2 px-5 flex items-center gap-3">
+                  <div className="flex items-center text-[#0a84ff] font-medium">
+                    <ChevronLeft className="w-6 h-6 -ml-2" />
+                    <span>Settings</span>
+                  </div>
+                </div>
+                <div className="px-5 pb-4">
+                  <div className="text-white text-3xl font-bold mt-1">Language</div>
+                </div>
+                <div className="px-5 flex-1 overflow-hidden pb-8">
+                  <div className="bg-[#1c1c1e] rounded-xl overflow-hidden h-full flex flex-col">
+                    <div className="overflow-y-auto scrollbar-hide h-full">
+                      {SUPPORTED_LANGUAGES.map((lang, i) => (
+                        <div key={lang} className={`flex items-center justify-between p-3.5 ${i !== SUPPORTED_LANGUAGES.length - 1 ? 'border-b border-[#38383a]' : ''}`}>
+                          <span className="text-white text-[17px] font-normal">{lang}</span>
+                          {lang === 'Български' && <div className="text-[#0a84ff]"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+            </div>
+          )}
+
+          {isFinancial && (
+            <div className="absolute inset-0 bg-[#09090b] flex w-full h-full overflow-hidden">
+              <AnimatePresence mode="wait">
+                {!showCrypto ? (
+                  <motion.div 
+                    key="wallet"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute inset-0 flex flex-col w-full h-full"
+                  >
+                    <div className="pt-16 pb-2 px-5 flex justify-between items-center">
+                      <div className="text-white text-[28px] font-bold tracking-wide">Wallet</div>
+                      <div className="w-8 h-8 rounded-full bg-[#1c1c1e] flex items-center justify-center">
+                        <ChevronLeft className="text-white w-5 h-5 pr-0.5" />
+                      </div>
+                    </div>
+                    <div className="px-5 mt-4 flex flex-col gap-5">
+                      <div className="w-full h-[190px] rounded-[1.25rem] bg-gradient-to-br from-[#2a4d53] to-[#1e3a41] p-5 flex flex-col justify-between relative shadow-lg">
+                        <div className="flex justify-between items-start z-10">
+                          <span className="text-white font-bold tracking-widest text-[13px]">FLEECA BANK</span>
+                          <div className="w-10 h-7 bg-[#d4af37] rounded-md opacity-90 shadow-inner flex flex-col justify-around py-1 px-1">
+                            <div className="w-full h-[1px] bg-black/20" />
+                            <div className="w-full h-[1px] bg-black/20" />
+                          </div>
+                        </div>
+                        <div className="z-10 mt-2">
+                          <div className="text-white/70 font-semibold text-[10px] tracking-widest mb-0.5">TOTAL BALANCE</div>
+                          <div className="text-white text-[42px] font-bold tracking-tight leading-none">$0</div>
+                        </div>
+                        <div className="z-10 flex justify-between items-end mt-4">
+                          <div>
+                            <div className="text-white/60 font-mono text-[11px] tracking-widest mb-1">**** **** ****</div>
+                            <div className="text-white font-mono text-[15px] tracking-[0.2em]">3391</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-white/60 font-bold text-[9px] tracking-widest mb-0.5">EXP</div>
+                            <div className="text-white font-mono text-[13px] tracking-wider">12/28</div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-4">
+                        <div className="flex-1 bg-[#1c1c1e] hover:bg-[#2c2c2e] rounded-2xl py-4 flex items-center justify-center gap-2 transition-colors">
+                          <ArrowUpRight className="text-white w-5 h-5" />
+                          <span className="text-white font-semibold text-[15px]">Send</span>
+                        </div>
+                        <div className="flex-1 bg-[#1c1c1e] hover:bg-[#2c2c2e] rounded-2xl py-4 flex items-center justify-center gap-2 transition-colors">
+                          <ArrowDownLeft className="text-white w-5 h-5" />
+                          <span className="text-white font-semibold text-[15px]">Request</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-2">
+                        <div className="flex justify-between items-center mb-6">
+                          <div className="text-white font-bold text-[19px]">Recent Activity</div>
+                          <div className="text-gray-400 font-semibold text-[11px] tracking-wider flex items-center gap-1">SEE ALL &rarr;</div>
+                        </div>
+                        <div className="flex justify-center items-center py-6">
+                          <p className="text-gray-500 font-medium text-[15px]">No activity yet</p>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    key="crypto"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute inset-0 flex flex-col w-full h-full"
+                  >
+                    <div className="pt-16 pb-2 px-5 flex justify-between items-center">
+                      <div className="text-white text-[28px] font-bold tracking-wide">Crypto</div>
+                      <div className="w-8 h-8 rounded-full bg-[#1c1c1e] flex items-center justify-center">
+                        <Bitcoin className="text-[#f7931a] w-5 h-5" />
+                      </div>
+                    </div>
+                    
+                    <div className="px-5 mt-4 flex flex-col gap-4">
+                      {/* Portfolio Balance */}
+                      <div className="w-full rounded-[1.25rem] bg-[#1c1c1e] p-5 flex flex-col relative shadow-lg border border-white/5">
+                        <div className="text-white/60 font-semibold text-[11px] tracking-widest mb-1">YOUR PORTFOLIO</div>
+                        <div className="text-white text-[38px] font-bold tracking-tight leading-none">$42,069</div>
+                        <div className="text-[#34c759] font-semibold text-[13px] mt-2 flex items-center gap-1">
+                          <ArrowUpRight className="w-4 h-4" /> +$1,240 (3.2%)
+                        </div>
+                      </div>
+
+                      <div className="text-white font-bold text-[17px] mt-2">Live Markets</div>
+
+                      {/* Coins List */}
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center justify-between bg-[#141415] p-3 rounded-2xl border border-white/5">
+                           <div className="flex items-center gap-3">
+                             <div className="w-10 h-10 rounded-full bg-[#f7931a]/20 flex items-center justify-center">
+                               <Bitcoin className="text-[#f7931a] w-6 h-6" />
+                             </div>
+                             <div>
+                               <div className="text-white font-bold text-[15px]">Bitcoin</div>
+                               <div className="text-white/50 text-[12px] font-medium">BTC</div>
+                             </div>
+                           </div>
+                           <div className="text-right">
+                             <div className="text-white font-bold text-[15px]">$64,230</div>
+                             <div className="text-[#34c759] text-[12px] font-medium">+2.4%</div>
+                           </div>
+                        </div>
+
+                        <div className="flex items-center justify-between bg-[#141415] p-3 rounded-2xl border border-white/5">
+                           <div className="flex items-center gap-3">
+                             <div className="w-10 h-10 rounded-full bg-[#627eea]/20 flex items-center justify-center">
+                               <span className="text-[#627eea] font-bold text-[18px]">Ξ</span>
+                             </div>
+                             <div>
+                               <div className="text-white font-bold text-[15px]">Ethereum</div>
+                               <div className="text-white/50 text-[12px] font-medium">ETH</div>
+                             </div>
+                           </div>
+                           <div className="text-right">
+                             <div className="text-white font-bold text-[15px]">$3,450</div>
+                             <div className="text-[#ff3b30] text-[12px] font-medium">-1.2%</div>
+                           </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between bg-[#141415] p-3 rounded-2xl border border-white/5">
+                           <div className="flex items-center gap-3">
+                             <div className="w-10 h-10 rounded-full bg-[#00a8ff]/20 flex items-center justify-center">
+                               <span className="text-[#00a8ff] font-bold text-[18px]">X</span>
+                             </div>
+                             <div>
+                               <div className="text-white font-bold text-[15px]">XenoCoin</div>
+                               <div className="text-white/50 text-[12px] font-medium">XNO</div>
+                             </div>
+                           </div>
+                           <div className="text-right">
+                             <div className="text-white font-bold text-[15px]">$12.45</div>
+                             <div className="text-[#34c759] text-[12px] font-medium">+14.2%</div>
+                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Features() {
   const sections = [
     {
-      title: "Unprecedented Realism",
-      subtitle: "Dynamic Island & Notifications",
-      desc: "Experience a seamless iOS-like interface. Incoming calls, messages, and alerts smoothly expand from the top of the screen just like the real thing. It doesn't just look good—it feels alive.",
-      icon: <Bell className="w-8 h-8 text-xeno-secondary" />,
-      features: ["Interactive expanding alerts", "Non-intrusive background calls", "Fluid framer-motion animations"],
+      title: "Multi-OS Experience",
+      subtitle: "iOS, Android & Custom",
+      desc: "Give your players the ultimate choice. Seamlessly switch between a fluid iOS-like interface with a functional Dynamic Island, a sleek Android experience, or a completely Custom OS with native-feeling interactions.",
+      icon: <Smartphone className="w-8 h-8 text-xeno-secondary" />,
+      features: ["Native iOS, Android & Custom designs", "Interactive expanding alerts", "Fluid framer-motion animations"],
       reverse: false,
     },
     {
@@ -77,7 +555,6 @@ export default function Features() {
 
   return (
     <section id="features" className="py-24 overflow-hidden relative z-10 bg-[#050507]">
-      {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(255,92,0,0.03)_0%,transparent_70%)] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(255,92,0,0.03)_0%,transparent_70%)] pointer-events-none" />
 
@@ -148,335 +625,21 @@ export default function Features() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex-1 w-full relative flex justify-center lg:justify-end"
               >
-                {/* 1:1 Hardware Phone Mockup */}
-                <div className="relative w-[320px] h-[660px] rounded-[3.5rem] border-[6px] border-xeno-primary bg-[#09090b] shadow-[0_0_50px_rgba(255,92,0,0.15)] flex flex-col items-center">
-                  
-                  {/* Hardware Buttons */}
-                  {/* Mute Switch */}
-                  <div className="absolute -left-[9px] top-[100px] w-1 h-6 bg-xeno-primary rounded-l-sm" />
-                  {/* Volume Up */}
-                  <div className="absolute -left-[9px] top-[140px] w-1.5 h-14 bg-xeno-primary rounded-l-md" />
-                  {/* Volume Down */}
-                  <div className="absolute -left-[9px] top-[210px] w-1.5 h-14 bg-xeno-primary rounded-l-md" />
-                  {/* Power Button */}
-                  <div className="absolute -right-[9px] top-[170px] w-1.5 h-20 bg-xeno-primary rounded-r-md" />
-
-                  {/* Screen Container */}
-                  <div className="relative w-full h-full rounded-[3rem] overflow-hidden bg-black">
-                    
-
-                    {/* Universal Status Bar */}
-                    <div className="absolute top-[12px] left-0 right-0 h-[34px] px-6 flex justify-between items-center z-[70] pointer-events-none text-white">
-                      <div className="text-[13px] font-bold tracking-wider drop-shadow-md flex items-center gap-[5px]">
-                        <span>ID: 339</span>
-                        <span className="text-[10px] font-black bg-white/25 px-[4px] py-[1px] rounded-[4px] tracking-normal mt-[1px]">5G</span>
-                      </div>
-                      <div className="flex items-center gap-[5px] drop-shadow-md pb-[1px]">
-                        <IOSSignal />
-                        <IOSWifi />
-                        <IOSBattery />
-                      </div>
-                    </div>
-
-                    {/* Exact Dynamic Island */}
-                    <div className="absolute top-0 inset-x-0 z-[70] flex justify-center pt-3 pointer-events-none">
-                      <motion.div 
-                        initial={sec.title.includes("Realism") || sec.title.includes("Security") ? { width: 105, height: 34, borderRadius: 9999, y: 0 } : false}
-                        animate={
-                          sec.title.includes("Realism") ? { 
-                            width: [105, 280, 280, 105], 
-                            height: [34, 60, 60, 34], 
-                            borderRadius: [9999, 28, 28, 9999],
-                            y: [0, 8, 8, 0]
-                          } : { width: 105, height: 34, borderRadius: 9999, y: 0 }
-                        }
-                        transition={sec.title.includes("Realism") ? { duration: 5, repeat: Infinity, ease: "easeInOut" } : {}}
-                        className="bg-black shadow-[0_4px_10px_rgba(0,0,0,0.5)] border-[0.5px] border-white/20 relative overflow-hidden pointer-events-auto"
-                      >
-                         {/* Static sensors that disappear when expanded */}
-                         <motion.div
-                           animate={(sec.title.includes("Realism") || sec.title.includes("Security")) ? { opacity: [1, 0, 0, 1] } : { opacity: 1 }}
-                           transition={
-                             sec.title.includes("Security") 
-                               ? { duration: 8, repeat: Infinity, ease: "easeInOut", times: [0, 0.1, 0.9, 1] } 
-                               : { duration: 5, repeat: Infinity, ease: "easeInOut" }
-                           }
-                           className="absolute inset-0 px-3 flex items-center justify-between pointer-events-none"
-                         >
-                           <div className="w-[8px] h-[8px] rounded-full bg-black/60 flex items-center justify-center shadow-inner">
-                             <div className="w-[3px] h-[3px] rounded-full bg-cyan-400 shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
-                           </div>
-                           <div className="w-[12px] h-[12px] rounded-full bg-gradient-to-br from-[#1a1a3e] to-[#0e0e20] ring-[1px] ring-[#252535]/80 flex items-center justify-center">
-                             <div className="w-[5px] h-[5px] rounded-full bg-[#2244aa]/60" />
-                           </div>
-                         </motion.div>
-
-                         {/* Incoming Call Content that appears when expanded */}
-                         {sec.title.includes("Realism") && (
-                           <motion.div
-                             animate={{ opacity: [0, 1, 1, 0] }}
-                             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                             className="absolute inset-0 px-2 flex items-center justify-between pointer-events-none"
-                           >
-                             <div className="flex items-center gap-2">
-                               <div className="w-[36px] h-[36px] rounded-full bg-[#34c759] flex items-center justify-center shrink-0">
-                                  <Shield className="w-5 h-5 text-white" />
-                               </div>
-                               <div className="flex flex-col justify-center">
-                                 <span className="text-white/50 text-[10px] font-medium leading-none mb-1">Incoming Call</span>
-                                 <span className="text-white font-semibold text-[13px] leading-none">Alex Smith</span>
-                               </div>
-                             </div>
-                             <div className="flex gap-2 shrink-0">
-                               <div className="w-[36px] h-[36px] rounded-full bg-[#ff3b30] flex items-center justify-center shadow-md">
-                                 <Phone size={18} fill="currentColor" className="text-white rotate-[135deg]" />
-                               </div>
-                               <div className="w-[36px] h-[36px] rounded-full bg-[#34c759] flex items-center justify-center shadow-md animate-pulse">
-                                 <Phone size={18} fill="currentColor" className="text-white" />
-                               </div>
-                             </div>
-                           </motion.div>
-                         )}
-
-                         {/* Face ID Content that appears when expanded */}
-                         {sec.title.includes("Security") && (
-                           <motion.div
-                             animate={{ opacity: [0, 1, 1, 0] }}
-                             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", times: [0, 0.1, 0.9, 1] }}
-                             className="absolute inset-0 flex items-center justify-center gap-1.5 pointer-events-none"
-                           >
-                             <motion.div
-                               animate={{ 
-                                 color: ['#60a5fa', '#60a5fa', '#4ade80', '#4ade80'] 
-                               }}
-                               transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.45, 0.55, 1] }}
-                             >
-                               <ScanFace className="w-3.5 h-3.5" strokeWidth={2} />
-                             </motion.div>
-                             <div className="relative h-[14px] w-[50px] flex items-center">
-                               <motion.span
-                                 className="absolute font-medium text-[9px] tracking-wide text-white"
-                                 animate={{ opacity: [1, 1, 0, 0, 0] }}
-                                 transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.4, 0.45, 0.5, 1] }}
-                               >
-                                 Verifying
-                               </motion.span>
-                               <motion.span
-                                 className="absolute font-medium text-[9px] tracking-wide text-[#4ade80]"
-                                 animate={{ opacity: [0, 0, 0, 1, 1] }}
-                                 transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.45, 0.5, 0.6, 1] }}
-                               >
-                                 Unlocked
-                               </motion.span>
-                             </div>
-                           </motion.div>
-                         )}
-                      </motion.div>
-                    </div>
-
-                    {/* Universal Home Bar */}
-                    <div className="absolute bottom-[8px] inset-x-0 flex justify-center z-[80] pointer-events-none">
-                      <div className="relative w-[60px] h-[5px] flex items-center justify-center">
-                        <div className="absolute inset-0 backdrop-blur-md rounded-full shadow-inner transition-colors bg-white/30" />
-                        <div className="absolute h-[3px] w-[20px] rounded-full transition-colors bg-white/90" />
-                      </div>
-                    </div>
-
-                    {/* Wallpaper Background for lock screen/home */}
-                    {(sec.title.includes("Realism") || sec.title.includes("Security")) && (
-                      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center opacity-70" />
-                    )}
-                    
-                    {/* Screen Content Wrapper */}
-                    <div className="relative w-full h-full z-10 flex flex-col items-center justify-center">
-                      
-                      {/* Dynamic Content based on feature */}
-                      {sec.title.includes("Realism") && (
-                        <div className="absolute inset-0 pt-9 pb-5 px-3 flex flex-col pointer-events-none z-10">
-                          {/* Clock at the top */}
-                          <div className="mt-1 flex flex-col items-center w-full mb-[12px]">
-                             <div className="text-[58px] font-bold text-white leading-none tracking-tight drop-shadow-md">21:30</div>
-                             <div className="text-white font-semibold text-[13px] mt-0 drop-shadow-md">09/25/2026</div>
-                          </div>
-                          
-                          <div className="grid grid-cols-4 gap-y-4 gap-x-2 w-full px-[6px]">
-                            {[
-                              { icon: Navigation, color: "from-[#10b981] via-[#059669] to-[#047857]" },
-                              { icon: Video, color: "from-[#34c759] via-[#30d158] to-[#28cd41]" },
-                              { icon: Mail, color: "from-[#43e5f7] via-[#2bcdf0] to-[#1cadde]" },
-                              { icon: Landmark, color: "from-[#1a2a6c] via-[#b21f1f] to-[#fdbb2d]" },
-                              { icon: Receipt, color: "from-[#0284c7] via-[#0369a1] to-[#075985]" },
-                              { icon: Car, color: "from-[#11998e] via-[#2de09e] to-[#38ef7d]" },
-                              { icon: Calendar, color: "from-[#b224ef] via-[#de479e] to-[#f36b6b]" },
-                              { icon: Calculator, color: "from-[#2193b0] via-[#41b5d1] to-[#6dd5ed]" },
-                              { icon: Home, color: "from-[#8b5cf6] via-[#7c3aed] to-[#6d28d9]" },
-                              { icon: Building2, color: "from-[#2563eb] via-[#3b82f6] to-[#60a5fa]" },
-                              { icon: ShoppingBag, color: "from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]" },
-                              { icon: MessageCircle, color: "from-[#38bdf8] via-[#0ea5e9] to-[#0284c7]" },
-                              { icon: ImageIcon, color: "from-[#ff0844] via-[#ffb199] to-[#ffcc80]" },
-                              { icon: Clock, color: "from-[#f97316] via-[#ea580c] to-[#c2410c]" },
-                              { icon: StickyNote, color: "from-[#f6d365] via-[#fda085] to-[#f6d365]" },
-                              { icon: Settings, color: "from-[#606c88] via-[#4e576f] to-[#3f4c6b]" }
-                            ].map((app, i) => (
-                              <div key={i} className="flex flex-col items-center gap-1">
-                                <div className={`w-[54px] h-[54px] rounded-[16px] flex items-center justify-center shadow-lg bg-gradient-to-br ${app.color}`}>
-                                  <app.icon className="w-6 h-6 text-white drop-shadow-sm" strokeWidth={1.5} />
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          
-                          <div className="mt-auto mb-2 flex justify-center gap-[6px] w-full">
-                            <div className="w-[6px] h-[6px] rounded-full bg-white/40"></div>
-                            <div className="w-[6px] h-[6px] rounded-full bg-white"></div>
-                            <div className="w-[6px] h-[6px] rounded-full bg-white/40"></div>
-                          </div>
-
-                          <div className="mx-1 h-[76px] bg-white/10 backdrop-blur-[24px] rounded-[1.8rem] flex items-center justify-around px-2 mb-1 shadow-lg border border-white/5">
-                            {[
-                              { icon: Phone, color: "from-[#11998e] to-[#38ef7d]" },
-                              { icon: MessageSquare, color: "from-[#4facfe] to-[#00a1ff]" },
-                              { icon: Users, color: "from-[#ffa751] to-[#ffe259]" },
-                              { icon: Camera, color: "from-[#f77062] to-[#fe5196]" }
-                            ].map((app, i) => (
-                              <div key={i} className={`w-[54px] h-[54px] rounded-[16px] flex items-center justify-center shadow-lg bg-gradient-to-br ${app.color}`}>
-                                <app.icon className="w-6 h-6 text-white drop-shadow-sm" strokeWidth={1.5} />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {sec.title.includes("Security") && (
-                        <div className="absolute inset-0 flex flex-col items-center w-full h-full bg-black/20">
-                           <div className="mt-16 flex flex-col items-center w-full">
-                             <div className="relative w-6 h-6 flex items-center justify-center mb-1">
-                               <motion.div
-                                 animate={{ opacity: [1, 1, 0, 0, 0] }}
-                                 transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.4, 0.45, 0.5, 1] }}
-                                 className="absolute"
-                               >
-                                 <ScanFace className="w-6 h-6 text-[#60a5fa] drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]" strokeWidth={1.5} />
-                               </motion.div>
-                               <motion.div
-                                 animate={{ opacity: [0, 0, 0, 1, 1] }}
-                                 transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.45, 0.5, 0.6, 1] }}
-                                 className="absolute"
-                               >
-                                 <Lock className="w-5 h-5 text-white" strokeWidth={2} />
-                               </motion.div>
-                             </div>
-                             
-                             <div className="text-[64px] font-bold text-white leading-none tracking-tight">21:19</div>
-                             <div className="text-white/90 font-medium text-lg mt-1">09/25/2026</div>
-                           </div>
-                           <div className="absolute bottom-6 flex flex-col items-center justify-center w-full">
-                             <motion.div 
-                               animate={{ opacity: [1, 1, 0, 0, 0] }}
-                               transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.4, 0.45, 0.5, 1] }}
-                               className="absolute bottom-0 text-white/90 font-medium text-[13px] tracking-wide mb-1"
-                             >
-                               Slide to unlock
-                             </motion.div>
-                             <motion.div 
-                               animate={{ opacity: [0, 0, 0, 1, 1] }}
-                               transition={{ duration: 8, repeat: Infinity, ease: "linear", times: [0, 0.45, 0.5, 0.6, 1] }}
-                               className="absolute bottom-0 text-white/90 font-medium text-[13px] tracking-wide mb-1"
-                             >
-                               Swipe up to open
-                             </motion.div>
-                           </div>
-                        </div>
-                      )}
-
-                      {sec.title.includes("Global") && (
-                        <div className="absolute inset-0 bg-[#000000] flex flex-col w-full h-full">
-                           <div className="pt-16 pb-2 px-5 flex items-center gap-3">
-                             <div className="flex items-center text-[#0a84ff] font-medium">
-                               <ChevronLeft className="w-6 h-6 -ml-2" />
-                               <span>Settings</span>
-                             </div>
-                           </div>
-                           <div className="px-5 pb-4">
-                             <div className="text-white text-3xl font-bold mt-1">Language</div>
-                           </div>
-                           <div className="px-5 flex-1 overflow-hidden pb-8">
-                             <div className="bg-[#1c1c1e] rounded-xl overflow-hidden h-full flex flex-col">
-                               <div className="overflow-y-auto scrollbar-hide h-full">
-                                 {SUPPORTED_LANGUAGES.map((lang, i) => (
-                                   <div key={lang} className={`flex items-center justify-between p-3.5 ${i !== SUPPORTED_LANGUAGES.length - 1 ? 'border-b border-[#38383a]' : ''}`}>
-                                     <span className="text-white text-[17px] font-normal">{lang}</span>
-                                     {lang === 'Български' && <div className="text-[#0a84ff]"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>}
-                                   </div>
-                                 ))}
-                               </div>
-                             </div>
-                           </div>
-                        </div>
-                      )}
-
-                      {sec.title.includes("Financial") && (
-                        <div className="absolute inset-0 bg-[#09090b] flex flex-col w-full h-full">
-                          <div className="pt-16 pb-2 px-5 flex justify-between items-center">
-                            <div className="text-white text-[28px] font-bold tracking-wide">Wallet</div>
-                            <div className="w-8 h-8 rounded-full bg-[#1c1c1e] flex items-center justify-center">
-                              <ChevronLeft className="text-white w-5 h-5 pr-0.5" />
-                            </div>
-                          </div>
-                          <div className="px-5 mt-4 flex flex-col gap-5">
-                            {/* Fleeca Bank Card */}
-                            <div className="w-full h-[190px] rounded-[1.25rem] bg-gradient-to-br from-[#2a4d53] to-[#1e3a41] p-5 flex flex-col justify-between relative shadow-lg">
-                              <div className="flex justify-between items-start z-10">
-                                <span className="text-white font-bold tracking-widest text-[13px]">FLEECA BANK</span>
-                                <div className="w-10 h-7 bg-[#d4af37] rounded-md opacity-90 shadow-inner flex flex-col justify-around py-1 px-1">
-                                  <div className="w-full h-[1px] bg-black/20" />
-                                  <div className="w-full h-[1px] bg-black/20" />
-                                </div>
-                              </div>
-                              <div className="z-10 mt-2">
-                                <div className="text-white/70 font-semibold text-[10px] tracking-widest mb-0.5">TOTAL BALANCE</div>
-                                <div className="text-white text-[42px] font-bold tracking-tight leading-none">$0</div>
-                              </div>
-                              <div className="z-10 flex justify-between items-end mt-4">
-                                <div>
-                                  <div className="text-white/60 font-mono text-[11px] tracking-widest mb-1">**** **** ****</div>
-                                  <div className="text-white font-mono text-[15px] tracking-[0.2em]">3391</div>
-                                </div>
-                                <div className="text-right">
-                                  <div className="text-white/60 font-bold text-[9px] tracking-widest mb-0.5">EXP</div>
-                                  <div className="text-white font-mono text-[13px] tracking-wider">12/28</div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            {/* Action Buttons */}
-                            <div className="flex gap-4">
-                              <div className="flex-1 bg-[#1c1c1e] hover:bg-[#2c2c2e] rounded-2xl py-4 flex items-center justify-center gap-2 transition-colors">
-                                <ArrowUpRight className="text-white w-5 h-5" />
-                                <span className="text-white font-semibold text-[15px]">Send</span>
-                              </div>
-                              <div className="flex-1 bg-[#1c1c1e] hover:bg-[#2c2c2e] rounded-2xl py-4 flex items-center justify-center gap-2 transition-colors">
-                                <ArrowDownLeft className="text-white w-5 h-5" />
-                                <span className="text-white font-semibold text-[15px]">Request</span>
-                              </div>
-                            </div>
-
-                            {/* Recent Activity */}
-                            <div className="mt-2">
-                              <div className="flex justify-between items-center mb-6">
-                                <div className="text-white font-bold text-[19px]">Recent Activity</div>
-                                <div className="text-gray-400 font-semibold text-[11px] tracking-wider flex items-center gap-1">SEE ALL &rarr;</div>
-                              </div>
-                              <div className="flex justify-center items-center py-6">
-                                <p className="text-gray-500 font-medium text-[15px]">No activity yet</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                    </div>
+                {sec.title.includes("Multi-OS") ? (
+                  <div className="relative w-full max-w-[320px] sm:max-w-none mx-auto h-[660px] flex items-center justify-center lg:-mr-16">
+                     <div className="absolute left-[-50px] sm:left-[-10px] md:left-[20px] lg:left-[0px] z-0 scale-[0.55] sm:scale-[0.65] opacity-50 -translate-y-4 -rotate-12 blur-[1px]">
+                        <PhoneMockup title={sec.title} osType="android" />
+                     </div>
+                     <div className="absolute right-[-50px] sm:right-[-10px] md:right-[20px] lg:right-[0px] z-0 scale-[0.55] sm:scale-[0.65] opacity-50 -translate-y-4 rotate-12 blur-[1px]">
+                        <PhoneMockup title={sec.title} osType="xeno" />
+                     </div>
+                     <div className="relative z-10 scale-[0.8] sm:scale-[0.9]">
+                        <PhoneMockup title={sec.title} osType="iphone" />
+                     </div>
                   </div>
-                </div>
+                ) : (
+                  <PhoneMockup title={sec.title} />
+                )}
               </motion.div>
 
             </div>
@@ -486,4 +649,3 @@ export default function Features() {
     </section>
   )
 }
-

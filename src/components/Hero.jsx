@@ -15,8 +15,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="inline-block px-4 py-1.5 rounded-full bg-xeno-primary/10 border border-xeno-primary/20 text-xeno-primary text-sm font-semibold mb-6 tracking-wide uppercase">
-            New Release
+          <div className="inline-block px-4 py-1.5 rounded-full bg-xeno-primary/10 border border-xeno-primary/20 text-xeno-primary text-sm font-semibold mb-6 tracking-wide uppercase flex items-center justify-center lg:justify-start w-fit mx-auto lg:mx-0 gap-2">
+            🚀 3 Operating Systems: iOS, Android & Custom
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-[1.1]">
@@ -24,7 +24,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0">
-            The most advanced FiveM phone system on the market. 25+ realistic apps, Dynamic Island, Face ID, and full support for QBCore, ESX, and Qbox.
+            The most advanced FiveM phone system on the market. Featuring <span className="text-white font-semibold">3 Operating Systems (iOS, Android & Custom)</span>, 25+ realistic apps, Dynamic Island, Face ID, and full support for QBCore, ESX, and Qbox.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12">
@@ -72,7 +72,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="absolute top-0 left-1/2 -translate-x-[58%] sm:-translate-x-1/2 lg:-translate-x-1/2 w-[450px] h-[850px] flex items-center justify-center scale-[1.05] sm:scale-100 lg:scale-100 origin-top"
+              className="absolute top-0 left-1/2 -translate-x-[25%] sm:-translate-x-[25%] lg:-translate-x-[25%] w-[800px] h-[850px] flex items-center justify-center scale-[1.05] sm:scale-100 lg:scale-100 origin-top"
             >
               {/* Overlay to block dragging if needed, but we want interaction. 
                   Instead, we just make the iframe big enough to fit the phone natively. */}
@@ -84,11 +84,16 @@ export default function Hero() {
                 onLoad={(e) => {
                   try {
                     const win = e.target.contentWindow;
-                    win.localStorage.removeItem('xeno_phone_position');
-                    win.localStorage.removeItem('phone_position');
-                    // Try to inject style to prevent drag
+                    win.localStorage.clear(); // Изчистваме старите кешове за тапети и цветове
+                    win.localStorage.setItem('phone_design', 'iphone'); // Форсираме iOS
+                    win.localStorage.setItem('phone_wallpaper', './wallpapers/b1.webp'); // Дефолтен iOS тапет
+                    win.localStorage.setItem('phone_accent', '#ffffff'); // Бял цвят на часовника
+                    
                     const style = win.document.createElement('style');
-                    style.innerHTML = '.drag-handle, [data-drag], .phone-header { pointer-events: none !important; touch-action: none !important; }';
+                    style.innerHTML = `
+                      .drag-handle, [data-drag], .phone-header { pointer-events: none !important; touch-action: none !important; }
+                      .fixed.inset-0 > .absolute.z-10 { right: auto !important; left: 20px !important; }
+                    `;
                     win.document.head.appendChild(style);
                   } catch (err) { }
                 }}
