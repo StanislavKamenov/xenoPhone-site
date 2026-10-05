@@ -28,7 +28,7 @@ export default function AppsList() {
     { id: 'calc', name: 'Calculator', iconComp: Calculator, color: 'from-[#2193b0] via-[#41b5d1] to-[#6dd5ed]' },
     { id: 'properties', name: 'Properties', iconComp: Home, color: 'from-[#8b5cf6] via-[#7c3aed] to-[#6d28d9]' },
     { id: 'companies', name: 'Companies', iconComp: Building2, color: 'from-[#2563eb] via-[#3b82f6] to-[#60a5fa]' },
-    { id: 'hub', name: 'App Store', iconComp: ShoppingBag, color: 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]' },
+    { id: 'hub', name: 'App Hub', iconComp: ShoppingBag, color: 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]' },
     { id: 'bleeter', name: 'Bleeter', iconComp: MessageCircle, color: 'from-[#38bdf8] via-[#0ea5e9] to-[#0284c7]' },
     { id: 'gallery', name: 'Gallery', iconComp: ImageIcon, color: 'from-[#ff0844] via-[#ffb199] to-[#ffcc80]' },
     { id: 'clock', name: 'Clock', iconComp: Clock, color: 'from-[#f97316] via-[#ea580c] to-[#c2410c]' },
@@ -40,7 +40,7 @@ export default function AppsList() {
     { id: 'weather', name: 'Weather', iconComp: CloudSun, color: 'from-[#38bdf8] via-[#0ea5e9] to-[#0284c7]' },
     { id: 'music', name: 'Music', iconComp: Music, color: 'from-[#ec4899] via-[#db2777] to-[#be185d]' },
     { id: 'crypto', name: 'Crypto', iconComp: TrendingUp, color: 'from-[#f59e0b] via-[#d97706] to-[#b45309]' },
-    { id: 'tinder', name: 'Tinder', iconComp: Flame, color: 'from-[#fe3c72] via-[#ff655b] to-[#ff3b30]' },
+    { id: 'tinder', name: 'Match', iconComp: Flame, color: 'from-[#fe3c72] via-[#ff655b] to-[#ff3b30]' },
     { id: 'radio', name: 'Radio', iconComp: Radio, color: 'from-[#10b981] via-[#059669] to-[#047857]' }
   ]
 
